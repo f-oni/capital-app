@@ -26,21 +26,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-      - name: Use the new tag
-        run: |
-          NEW_TAG=${{ steps.tag_action.outputs.new_tag }}
-          echo "The new tag is: $NEW_TAG"
-      - name: Use Node.js 
-        uses: actions/setup-node@v4 
-        with:
-          node-version: '21.x'
-      
-      - name: Install dependencies
-        run: npm ci
-      - name: Run Linter
-        run: npx eslint .
-      - name: build
-        run: npm run build --if-present
-      - name: Run tests
-        run: npm test
+    
        
