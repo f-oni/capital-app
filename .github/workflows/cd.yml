@@ -17,10 +17,15 @@ jobs:
       - name: checkout code 
         uses: actions/checkout@v4
       - name: Bump version and push tag
+        id: tag_action
         uses: anothrNick/github-tag-action@1.26.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
+      - name: Use the new tag
+        run: |
+          NEW_TAG=${{ steps.tag_action.outputs.new_tag }}
+          echo "The new tag is: $NEW_TAG"
       - name: Use Node.js 
         uses: actions/setup-node@v4 
         with:
