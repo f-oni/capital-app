@@ -1,0 +1,38 @@
+name: Bump version and tag
+
+on: 
+  push:
+    branches: [ main ]
+
+
+jobs:
+  
+  build:
+    name: Create Tag
+  
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: checkout code 
+        uses: actions/checkout@v4
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.26.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+      - name: Use Node.js 
+        uses: actions/setup-node@v4 
+        with:
+          node-version: '21.x'
+      
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Linter
+        run: npx eslint .
+      - name: build
+        run: npm run build --if-present
+      - name: Run tests
+        run: npm test
+       
+      
